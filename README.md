@@ -1,7 +1,7 @@
 # Sploosh
 Beautiful Unsplash photos for your new tab.
 
-![Screeshot](./images/screenshots/screenshot.png "Screenshot")
+![Screeshot](./images/screenshots/screenshot.jpg "Screenshot")
 
 ## Setup
 
@@ -29,10 +29,14 @@ Every new tab loads a random Unsplash photo.
 
 **Pin**
 
+![Pin](./images/screenshots/screenshot1.jpg "Pin")
+
 See an image you like?  
 Click the pin icon to make it stick.
 
 **New**
+
+![New](./images/screenshots/screenshot2.jpg "New")
 
 Want a new image without opening a new tab?  
 Click the random icon or the spacebar on your keyboard.
