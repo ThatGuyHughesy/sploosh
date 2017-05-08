@@ -2,73 +2,74 @@ var client_id = '<CLIENT_ID_HERE>';
 var api_url = 'https://api.unsplash.com/photos/random?client_id=';
 var unsplash_url = 'https://unsplash.com';
 var unsplash_utm = '?utm_source=sploosh&utm_medium=referral&utm_campaign=api-credit';
-var image_quality = 'regular';
-var photo = {};
+var current_photo = {};
+var next_photo = {};
 var pinned = 0;
 
 $(document).ready(function () {
 
-    function loadSettings() {
+    function loadData() {
         if (localStorage.getItem('pinned')) {
             pinned = localStorage.getItem('pinned');
+        }
+        if (localStorage.getItem('current_photo')) {
+            current_photo = JSON.parse(localStorage.getItem('current_photo'));
+        }
+        if (localStorage.getItem('next_photo')) {
+            next_photo = JSON.parse(localStorage.getItem('next_photo'));
         }
         setPin();
     }
 
-    function loadPhoto() {
-        photo = JSON.parse(localStorage.getItem('photo'));
+    function encodeImage(src, callback, outputFormat) {
+        var img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.onload = function () {
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+            var dataURL;
+            canvas.height = this.height;
+            canvas.width = this.width;
+            ctx.drawImage(this, 0, 0);
+            dataURL = canvas.toDataURL(outputFormat);
+            callback(dataURL);
+        };
+        img.src = src;
+        if (img.complete || img.complete === undefined) {
+            img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+            img.src = src;
+        }
     }
 
     function savePhoto() {
-        localStorage.setItem('photo', JSON.stringify(photo));
+        localStorage.clear();
+        localStorage.setItem('current_photo', JSON.stringify(current_photo));
+        localStorage.setItem('next_photo', JSON.stringify(next_photo));
     }
 
-    function randomPhoto() {
+    function getRandomPhoto() {
         var url = api_url + client_id;
         return $.ajax({
             url: url,
             success: function (response) {
-                photo = {
-                    'author': response.user.name,
-                    'link': response.links.html,
-                    'urls': response.urls
-                };
-                savePhoto();
-                setBackground(photo.author, photo.link, photo.urls[image_quality]);
+                encodeImage(
+                    response.urls['regular'],
+                    function (data) {
+                        next_photo = {
+                            'author': response.user.name,
+                            'link': response.links.html,
+                            'src': data
+                        };
+                        savePhoto();
+                    }
+                );
             }
         });
     }
 
-    function getPhoto() {
-        if (pinned == 0) {
-            randomPhoto();
-        } else {
-            loadPhoto();
-            setBackground(photo.author, photo.link, photo.urls[image_quality]);
-        }
-    }
-
-    function setBackground(author, link, url) {
-        var date = new Date();
-        $(new Image()).attr('src', url + '?' + date.getTime()).load(function () {
-            $('#photo').attr('src', this.src);
-            $('#author').html('Photo by <a href=\"' + link + unsplash_utm + '\" target=\"_blank\">' + author + '</a> / <a href=\"' + unsplash_url + unsplash_utm + '\">Unsplash</a>');
-
-            var loader = $('#loader');
-            if (loader.is(":visible")) {
-                loader.delay(1000).fadeOut(500);
-            }
-
-            var random = $('#random');
-            if (random.is(":hidden")) {
-                random.show();
-            }
-
-            var loading = $('#random-loading');
-            if (loading.is(":visible")) {
-                loading.hide();
-            }
-        });
+    function setBackground(author, link, src) {
+        $('#background').attr('src', src);
+        $('#author').html('Photo by <a href=\"' + link + unsplash_utm + '\" target=\"_blank\">' + author + '</a> / <a href=\"' + unsplash_url + unsplash_utm + '\">Unsplash</a>');
     }
 
     function pin() {
@@ -91,30 +92,35 @@ $(document).ready(function () {
         }
     }
 
-    function random() {
+    function randomPhoto() {
         if (pinned == 0) {
-            $('#random').hide();
-            $('#random-loading').show();
-            randomPhoto();
+            current_photo = next_photo;
+            getRandomPhoto();
         }
     }
 
     function init() {
-        loadSettings();
-        getPhoto();
+        loadData();
+        if ($.isEmptyObject(current_photo)) {
+            current_photo = default_photo;
+            getRandomPhoto();
+        } else {
+            randomPhoto();
+        }
+        setBackground(current_photo.author, current_photo.link, current_photo.src);
     }
 
     $("#pin").click(function () {
         pin();
     });
 
-    $("#random-button").click(function () {
-        random();
+    $("#random").click(function () {
+        randomPhoto();
     });
 
     $(document).keyup(function (e) {
         if (e.keyCode == 32) {
-            random();
+            randomPhoto();
         }
     });
 

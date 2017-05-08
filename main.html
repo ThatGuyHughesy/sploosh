@@ -3,57 +3,38 @@
 
 <head>
     <script src="scripts/libraries/jquery.min.js"></script>
+    <script src="scripts/default.js"></script>
     <script src="scripts/main.js"></script>
     <script src="scripts/clock.js"></script>
-    <link rel="stylesheet" href="styles/animation.css">
-    <link rel="stylesheet" href="styles/loading.css">
     <link rel="stylesheet" href="styles/main.css">
 </head>
 
 <body>
-<div class="loader" id="loader">
-    <div class="loading">
-        <div class="dot dot-1"></div>
-        <div class="dot dot-2"></div>
-        <div class="dot dot-3"></div>
-    </div>
-</div>
-
-<div class="actions" id="actions">
-    <div class="top-left" id="top-left">
-        <a href="#" id="pin">
-            <img class="icon" src="images/pin.svg">
-        </a>
-    </div>
-    <div class="top-right" id="top-right">
-        <div class="loading" id="random-loading">
-            <div class="dot dot-1"></div>
-            <div class="dot dot-2"></div>
-            <div class="dot dot-3"></div>
+<div class="sploosh">
+    <div class="actions" id="actions">
+        <div class="top-left" id="top-left">
+            <a href="#" id="pin">
+                <img class="icon" src="images/pin.svg">
+            </a>
         </div>
-        <div class="random" id="random">
-            <a href="#" id="random-button">
+        <div class="top-right" id="top-right">
+            <a href="#" id="random">
                 <img class="icon" src="images/random.svg">
             </a>
         </div>
     </div>
-</div>
-
-<div class="background">
-    <img class="photo" id="photo">
-    <div class="overlay" id="overlay"></div>
-</div>
-</img>
-
-<div class="clock">
-    <div class="wrapper">
-        <div class="container">
-            <div class="date" id="date"></div>
-            <div class="time" id="time"></div>
+    <img class="background" id="background">
+    <div class="overlay" id="overlay">
+        <div class="clock">
+            <div class="wrapper">
+                <div class="container">
+                    <div class="date" id="date"></div>
+                    <div class="time" id="time"></div>
+                </div>
+            </div>
         </div>
+        <div class="author" id="author"></div>
     </div>
 </div>
-
-<div class="author" id="author"></div>
 </body>
 </html>

@@ -13,15 +13,15 @@ Update client_id in main.js:
 var client_id = '<CLIENT_ID_HERE>';
 ```
 
-
 ## Installation
 
 To load Sploosh into Chrome go to Settings > Extensions
 
+Turn on Developer Mode
+
 Click load unpacked extension 
 
 Choose the Sploosh folder and you're ready to go!
-
 
 ## How It Works
 
@@ -37,3 +37,6 @@ Click the pin icon to make it stick.
 Want a new image without opening a new tab?  
 Click the random icon or the spacebar on your keyboard.
 
+## Copyright & License
+
+Copyright (c) 2017 Conor Hughes - Released under the MIT license.
