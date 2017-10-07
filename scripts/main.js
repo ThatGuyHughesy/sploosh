@@ -95,6 +95,7 @@ $(document).ready(function () {
     function randomPhoto() {
         if (pinned == 0) {
             current_photo = next_photo;
+	    setBackground(current_photo.author, current_photo.link, current_photo.src);
             getRandomPhoto();
         }
     }
