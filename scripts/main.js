@@ -57,7 +57,7 @@ $(document).ready(function () {
                     function (data) {
                         next_photo = {
                             'author': response.user.name,
-                            'link': response.links.html,
+                            'link': response.user.links.html,
                             'src': data
                         };
                         savePhoto();
