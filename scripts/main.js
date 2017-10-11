@@ -1,5 +1,5 @@
 var client_id = '<CLIENT_ID_HERE>';
-var api_url = 'https://api.unsplash.com/photos/random?client_id=';
+var api_url = 'https://api.unsplash.com/photos/random?orientation=landscape&client_id=';
 var unsplash_url = 'https://unsplash.com';
 var unsplash_utm = '?utm_source=sploosh&utm_medium=referral&utm_campaign=api-credit';
 var current_photo = {};
